@@ -1,21 +1,21 @@
-# User Registration Endpoint Documentation
-
-## Endpoint
-
-`POST /users/register`
+# 📚 User Registration & Login API Documentation
 
 ---
 
-## Description
+## 📌 User Registration
 
-This endpoint allows a new user to register.  
-It validates the input, checks if the user already exists, hashes the password, creates the user, and returns a JWT token along with the user object.
+### Endpoint
 
----
+```
+POST /users/register
+```
 
-## Required Data
+### Description
 
-Send a JSON object in the request body with the following structure:
+Register a new user in the system.  
+Validates input, checks for existing users, hashes the password, creates the user, and returns a JWT token along with the user object.
+
+### Request Body
 
 ```json
 {
@@ -28,19 +28,15 @@ Send a JSON object in the request body with the following structure:
 }
 ```
 
-- `fullname` (object): Required. Must include:
-  - `firstname` (string): Required.
-  - `lastname` (string): Required.
-- `email` (string): Required. Must be a valid email address.
-- `password` (string): Required.
+- **fullname** (object, required)
+  - **firstname** (string, required): At least 3 characters
+  - **lastname** (string, required)
+- **email** (string, required): Must be a valid email address
+- **password** (string, required): At least 6 characters
 
----
+### Success Response
 
-## Status Codes and Responses
-
-### 201 Created
-
-Registration successful.
+**Status Code:** `201 Created`
 
 ```json
 {
@@ -55,42 +51,108 @@ Registration successful.
 }
 ```
 
----
+### Error Responses
 
-### 400 Bad Request
+**Status Code:** `400 Bad Request`
 
-Validation failed or user already exists.
-
-**Validation Error Example:**
-```json
-{
-  "errors": [
+- Validation Error:
+    ```json
     {
-      "msg": "Error message",
-      "param": "field",
-      "location": "body"
+      "errors": [
+        {
+          "msg": "Error message",
+          "param": "field",
+          "location": "body"
+        }
+      ]
     }
-  ]
-}
-```
-
-**User Exists Example:**
-```json
-{
-  "message": "User already exist"
-}
-```
+    ```
+- User Already Exists:
+    ```json
+    {
+      "message": "User already exist"
+    }
+    ```
 
 ---
 
-## Example Request
+## 📌 User Login
+
+### Endpoint
+
+```
+POST /users/login
+```
+
+### Description
+
+Authenticate an existing user.  
+Validates input, checks credentials, and returns a JWT token along with user information if successful.
+
+### Request Body
+
+```json
+{
+  "email": "johndoe@example.com",
+  "password": "yourPassword123"
+}
+```
+
+- **email** (string, required): Must be a valid email address
+- **password** (string, required): At least 6 characters
+
+### Success Response
+
+**Status Code:** `200 OK`
+
+```json
+{
+  "token": "<jwt_token>",
+  "user": {
+    "_id": "user_id",
+    "firstname": "John",
+    "lastname": "Doe",
+    "email": "johndoe@example.com"
+    // ...other user fields
+  }
+}
+```
+
+### Error Responses
+
+**Status Code:** `400 Bad Request`
+
+- Validation Error:
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Error message",
+          "param": "field",
+          "location": "body"
+        }
+      ]
+    }
+    ```
+
+**Status Code:** `401 Unauthorized`
+
+- Invalid Credentials:
+    ```json
+    {
+      "message": "Invalid email or password"
+    }
+    ```
+
+---
+
+## 🧑‍💻 Example Login Request
 
 ```bash
-curl -X POST http://localhost:3000/users/register \
+curl -X POST http://localhost:3000/users/login \
 -H "Content-Type: application/json" \
 -d '{
-  "fullname": { "firstname": "Jane", "lastname": "Smith" },
-  "email": "janesmith@example.com",
-  "password": "securePassword!"
+  "email": "johndoe@example.com",
+  "password": "yourPassword123"
 }'
 ```
