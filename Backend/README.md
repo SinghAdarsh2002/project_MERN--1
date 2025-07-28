@@ -146,7 +146,91 @@ Validates input, checks credentials, and returns a JWT token along with user inf
 
 ---
 
-## 🧑‍💻 Example Login Request
+## 📌 Get User Profile
+
+### Endpoint
+
+```
+GET /users/profile
+```
+
+### Description
+
+Retrieve the authenticated user's profile information.  
+Requires a valid JWT token in the `Authorization` header.
+
+### Headers
+
+- `Authorization: Bearer <jwt_token>`
+
+### Success Response
+
+**Status Code:** `200 OK`
+
+```json
+{
+  "_id": "user_id",
+  "firstname": "John",
+  "lastname": "Doe",
+  "email": "johndoe@example.com"
+  // ...other user fields
+}
+```
+
+### Error Responses
+
+**Status Code:** `401 Unauthorized`
+
+```json
+{
+  "message": "Not authorized, token failed"
+}
+```
+
+---
+
+## 📌 Logout User
+
+### Endpoint
+
+```
+GET /users/logout
+```
+
+### Description
+
+Logs out the authenticated user by invalidating the JWT token.  
+Requires a valid JWT token in the `Authorization` header.
+
+### Headers
+
+- `Authorization: Bearer <jwt_token>`
+
+### Success Response
+
+**Status Code:** `200 OK`
+
+```json
+{
+  "message": "Logout successful"
+}
+```
+
+### Error Responses
+
+**Status Code:** `401 Unauthorized`
+
+```json
+{
+  "message": "Not authorized, token failed"
+}
+```
+
+---
+
+## 🧑‍💻 Example Requests
+
+### Login
 
 ```bash
 curl -X POST http://localhost:3000/users/login \
@@ -155,4 +239,18 @@ curl -X POST http://localhost:3000/users/login \
   "email": "johndoe@example.com",
   "password": "yourPassword123"
 }'
+```
+
+### Get Profile
+
+```bash
+curl -X GET http://localhost:3000/users/profile \
+-H "Authorization: Bearer <jwt_token>"
+```
+
+### Logout
+
+```bash
+curl -X GET http://localhost:3000/users/logout \
+-H "Authorization: Bearer <jwt_token>"
 ```
