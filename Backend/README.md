@@ -228,6 +228,99 @@ Requires a valid JWT token in the `Authorization` header.
 
 ---
 
+## 📌 Captain Registration
+
+### Endpoint
+
+```
+POST /captains/register
+```
+
+### Description
+
+Register a new captain in the system.  
+Validates input, checks for required fields, hashes the password, creates the captain, and returns the captain object (and optionally a JWT token if implemented).
+
+### Request Body
+
+```json
+{
+  "fullname": {
+    "firstname": "Alex",
+    "lastname": "Smith"
+  },
+  "email": "alexsmith@example.com",
+  "password": "yourPassword123",
+  "vehicle": {
+    "color": "Red",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}
+```
+
+- **fullname** (object, required)
+  - **firstname** (string, required): At least 3 characters
+  - **lastname** (string, required): At least 3 characters
+- **email** (string, required): Must be a valid email address
+- **password** (string, required): At least 6 characters
+- **vehicle** (object, required)
+  - **color** (string, required): At least 3 characters
+  - **plate** (string, required): At least 3 characters
+  - **capacity** (integer, required): Minimum value 1
+  - **vehicleType** (string, required): Must be one of `"car"`, `"motorcycle"`, `"auto"`
+
+### Success Response
+
+**Status Code:** `201 Created`
+
+```json
+{
+  "_id": "captain_id",
+  "fullname": {
+    "firstname": "Alex",
+    "lastname": "Smith"
+  },
+  "email": "alexsmith@example.com",
+  "vehicle": {
+    "color": "Red",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+  // ...other captain fields
+}
+```
+
+### Error Responses
+
+**Status Code:** `400 Bad Request`
+
+- Validation Error:
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Error message",
+          "param": "field",
+          "location": "body"
+        }
+      ]
+    }
+    ```
+
+**Status Code:** `409 Conflict`
+
+- Captain Already Exists:
+    ```json
+    {
+      "message": "Captain already exist"
+    }
+    ```
+
+---
+
 ## 🧑‍💻 Example Requests
 
 ### Login
@@ -253,4 +346,22 @@ curl -X GET http://localhost:3000/users/profile \
 ```bash
 curl -X GET http://localhost:3000/users/logout \
 -H "Authorization: Bearer <jwt_token>"
+```
+
+### Captain Registration
+
+```bash
+curl -X POST http://localhost:3000/captains/register \
+-H "Content-Type: application/json" \
+-d '{
+  "fullname": { "firstname": "Alex", "lastname": "Smith" },
+  "email": "alexsmith@example.com",
+  "password": "yourPassword123",
+  "vehicle": {
+    "color": "Red",
+    "plate": "ABC123",
+    "capacity": 4,
+    "vehicleType": "car"
+  }
+}'
 ```
