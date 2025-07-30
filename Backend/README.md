@@ -321,6 +321,176 @@ Validates input, checks for required fields, hashes the password, creates the ca
 
 ---
 
+## 📌 Captain Login
+
+### Endpoint
+
+```
+POST /captains/login
+```
+
+### Description
+
+Authenticate an existing captain.  
+Validates input, checks credentials, and returns a JWT token along with captain information if successful.
+
+### Request Body
+
+```json
+{
+  "email": "alexsmith@example.com",
+  "password": "yourPassword123"
+}
+```
+
+- **email** (string, required): Must be a valid email address
+- **password** (string, required): At least 6 characters
+
+### Success Response
+
+**Status Code:** `200 OK`
+
+```json
+{
+  "token": "<jwt_token>",
+  "captain": {
+    "_id": "captain_id",
+    "fullname": {
+      "firstname": "Alex",
+      "lastname": "Smith"
+    },
+    "email": "alexsmith@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+    // ...other captain fields
+  }
+}
+```
+
+### Error Responses
+
+**Status Code:** `400 Bad Request`
+
+- Validation Error:
+    ```json
+    {
+      "errors": [
+        {
+          "msg": "Error message",
+          "param": "field",
+          "location": "body"
+        }
+      ]
+    }
+    ```
+
+**Status Code:** `401 Unauthorized`
+
+- Invalid Credentials:
+    ```json
+    {
+      "message": "Invalid email or password"
+    }
+    ```
+
+---
+
+## 📌 Get Captain Profile
+
+### Endpoint
+
+```
+GET /captains/profile
+```
+
+### Description
+
+Retrieve the authenticated captain's profile information.  
+Requires a valid JWT token in the `Authorization` header.
+
+### Headers
+
+- `Authorization: Bearer <jwt_token>`
+
+### Success Response
+
+**Status Code:** `200 OK`
+
+```json
+{
+  "captain": {
+    "_id": "captain_id",
+    "fullname": {
+      "firstname": "Alex",
+      "lastname": "Smith"
+    },
+    "email": "alexsmith@example.com",
+    "vehicle": {
+      "color": "Red",
+      "plate": "ABC123",
+      "capacity": 4,
+      "vehicleType": "car"
+    }
+    // ...other captain fields
+  }
+}
+```
+
+### Error Responses
+
+**Status Code:** `401 Unauthorized`
+
+```json
+{
+  "message": "Not authorized, token failed"
+}
+```
+
+---
+
+## 📌 Captain Logout
+
+### Endpoint
+
+```
+GET /captains/logout
+```
+
+### Description
+
+Logs out the authenticated captain by invalidating the JWT token.  
+Requires a valid JWT token in the `Authorization` header.
+
+### Headers
+
+- `Authorization: Bearer <jwt_token>`
+
+### Success Response
+
+**Status Code:** `200 OK`
+
+```json
+{
+  "message": "Logout successfully"
+}
+```
+
+### Error Responses
+
+**Status Code:** `401 Unauthorized`
+
+```json
+{
+  "message": "Not authorized, token failed"
+}
+```
+
+---
+
 ## 🧑‍💻 Example Requests
 
 ### Login
@@ -364,4 +534,29 @@ curl -X POST http://localhost:3000/captains/register \
     "vehicleType": "car"
   }
 }'
+```
+
+### Captain Login
+
+```bash
+curl -X POST http://localhost:3000/captains/login \
+-H "Content-Type: application/json" \
+-d '{
+  "email": "alexsmith@example.com",
+  "password": "yourPassword123"
+}'
+```
+
+### Captain Get Profile
+
+```bash
+curl -X GET http://localhost:3000/captains/profile \
+-H "Authorization: Bearer <jwt_token>"
+```
+
+### Captain Logout
+
+```bash
+curl -X GET http://localhost:3000/captains/logout \
+-H "Authorization: Bearer <jwt_token>"
 ```
