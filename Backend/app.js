@@ -10,6 +10,7 @@ app.use(cors());
 const connectToDb = require('./db/db');
 connectToDb();
 
+console.log('Environment:', process.env.MONGO_URI);
 const userRoutes = require('./routes/user.routes');
 const captainRoutes = require('./routes/captain.routes');
 
