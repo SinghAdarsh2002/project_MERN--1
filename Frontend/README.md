@@ -1,12 +1,119 @@
-# React + Vite
+# 🚀 Uber Clone Frontend Documentation
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a React-based frontend for an Uber-like application. Below you'll find documentation for the main context and page components.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📂 Project Structure
 
-## Expanding the ESLint configuration
+```
+src/
+  context/
+    UserContext.jsx
+  pages/
+    Start.jsx
+    UserLogin.jsx
+    UserSignup.jsx
+    CaptainLogin.jsx
+    CaptainSignup.jsx
+  App.jsx
+  main.jsx
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 🧩 Context
+
+### `UserContext.jsx`
+
+- Provides a `UserDataContext` using React Context API.
+- Stores and shares user data (`user`, `setUser`) across the app.
+- Wraps the entire app in `main.jsx` for global access.
+
+**Usage Example:**
+```jsx
+import { useContext } from 'react'
+import { UserDataContext } from '../context/UserContext'
+
+const { user, setUser } = useContext(UserDataContext)
+```
+
+---
+
+## 📄 Pages
+
+### `Start.jsx`
+
+- Landing page with a "Continue" button that routes to `/login`.
+
+---
+
+### `UserLogin.jsx`
+
+- Login form for users.
+- Fields: Email, Password.
+- On submit: (to be implemented) should authenticate user and update context.
+- Link to `/signup` for new users.
+- Link to `/captain-login` for captain login.
+
+---
+
+### `UserSignup.jsx`
+
+- Signup form for users.
+- Fields: First Name, Last Name, Email, Password.
+- On submit: (to be implemented) should register user and update context.
+- Link to `/login` for existing users.
+
+---
+
+### `CaptainLogin.jsx`
+
+- Login form for captains.
+- Fields: Email, Password.
+- On submit: (to be implemented) should authenticate captain.
+- Link to `/captain-signup` for new captains.
+- Link to `/login` for user login.
+
+---
+
+### `CaptainSignup.jsx`
+
+- Signup form for captains.
+- Fields: First Name, Last Name, Email, Password, Vehicle Color, Plate, Capacity, Vehicle Type.
+- On submit: (to be implemented) should register captain.
+- Link to `/captain-login` for existing captains.
+
+---
+
+## 🛣️ Routing
+
+- `/` → `Start`
+- `/login` → `UserLogin`
+- `/signup` → `UserSignup`
+- `/captain-login` → `CaptainLogin`
+- `/captain-signup` → `CaptainSignup`
+
+Routing is handled in `App.jsx` using `react-router-dom`.
+
+---
+
+## 📝 How Context is Provided
+
+In `main.jsx`, the app is wrapped with `UserContext` and `BrowserRouter`:
+
+```jsx
+<UserContext>
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+</UserContext>
+```
+
+---
+
+## ⚠️ Notes
+
+- All context and import paths use `UserContext.jsx` (capital "U") for consistency.
+- Authentication and API integration logic should be implemented in the submit handlers.
+- For cross-platform compatibility, always match file
