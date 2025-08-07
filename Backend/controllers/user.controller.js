@@ -3,15 +3,13 @@ const userService = require('../services/user.service');
 const { validationResult } = require('express-validator');
 const blackListTokenModel = require('../models/blackListToken.model');
 
-
-
 module.exports.registerUser = async (req, res, next) => {
 
     const errors = validationResult(req);
-   
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
+
     const { fullname, email, password } = req.body;
 
     const isUserAlready = await userModel.findOne({ email });
@@ -42,6 +40,7 @@ module.exports.loginUser = async (req, res, next) => {
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
     }
+
     const { email, password } = req.body;
 
     const user = await userModel.findOne({ email }).select('+password');
@@ -57,7 +56,6 @@ module.exports.loginUser = async (req, res, next) => {
     }
 
     const token = user.generateAuthToken();
-    res.cookie('token', token);
 
     res.cookie('token', token);
 
@@ -77,4 +75,5 @@ module.exports.logoutUser = async (req, res, next) => {
     await blackListTokenModel.create({ token });
 
     res.status(200).json({ message: 'Logged out' });
+
 }
