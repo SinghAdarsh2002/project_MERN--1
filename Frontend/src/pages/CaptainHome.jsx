@@ -108,7 +108,7 @@ const CaptainHome = () => {
                 </Link>
             </div>
             <div className='h-3/5'>
-                <LiveTracking /> {/* <-- Replace GIF with Google Map */}
+                <LiveTracking /> 
             </div>
             <div className='h-2/5 p-6'>
                 <CaptainDetails />

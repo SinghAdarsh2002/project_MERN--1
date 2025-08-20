@@ -67,7 +67,7 @@ const CaptainSignup = () => {
           submitHandler(e)
         }}>
 
-          <h3 className='text-lg w-full  font-medium mb-2'>What's our Captain's name</h3>
+          <h3 className='text-lg w-full  font-medium mb-2'>What's our goPilot's name</h3>
           <div className='flex gap-4 mb-7'>
             <input
               required
@@ -91,7 +91,7 @@ const CaptainSignup = () => {
             />
           </div>
 
-          <h3 className='text-lg font-medium mb-2'>What's our Captain's email</h3>
+          <h3 className='text-lg font-medium mb-2'>What's our goPilot's email</h3>
           <input
             required
             value={email}
@@ -160,13 +160,13 @@ const CaptainSignup = () => {
               <option value="" disabled>Select Vehicle Type</option>
               <option value="car">Car</option>
               <option value="auto">Auto</option>
-              <option value="moto">Moto</option>
+              <option value="moto">Bike</option>
             </select>
           </div>
 
           <button
             className='bg-[#111] text-white font-semibold mb-3 rounded-lg px-4 py-2 w-full text-lg placeholder:text-base'
-          >Create Captain Account</button>
+          >Create goPilot Account</button>
 
         </form>
         <p className='text-center'>Already have a account? <Link to='/captain-login' className='text-blue-600'>Login here</Link></p>
